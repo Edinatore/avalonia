@@ -1,0 +1,78 @@
+<Window
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:ReactorDesigner.ViewModels"
+    xmlns:models="using:ReactorDesigner.Models"
+    mc:Ignorable="d"
+    x:Class="ReactorDesigner.Views.MainWindow"
+    x:DataType="vm:MainWindowViewModel"
+    Width="1400"
+    Height="900"
+    Background="#1E1E1E"
+    Title="Reactor Designer">
+
+    <Grid Background="#1E1E1E">
+
+        <ItemsControl ItemsSource="{Binding Nodes}">
+
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="models:NodeModel">
+                    <Canvas>
+                        <Border
+                            Canvas.Left="{Binding X}"
+                            Canvas.Top="{Binding Y}"
+                            Width="180"
+                            Height="120"
+                            Background="#2B2B2B"
+                            BorderBrush="#F5C542"
+                            BorderThickness="2"
+                            CornerRadius="10"
+                            PointerPressed="Node_PointerPressed"
+                            PointerMoved="Node_PointerMoved"
+                            PointerReleased="Node_PointerReleased">
+
+                            <Grid>
+
+                                <!-- Bild -->
+                                <Image
+                                    Source="{Binding ImagePath}"
+                                    Stretch="Uniform"
+                                    Margin="10,10,10,35" />
+
+                                <!-- Titel -->
+                                <Border
+                                    Background="#222"
+                                    Height="30"
+                                    VerticalAlignment="Bottom">
+
+                                    <TextBlock
+                                        Text="{Binding Title}"
+                                        Foreground="White"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        FontWeight="Bold" />
+
+                                </Border>
+
+                            </Grid>
+
+                        </Border>
+                    </Canvas>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+
+        </ItemsControl>
+
+    </Grid>
+
+</Window>
