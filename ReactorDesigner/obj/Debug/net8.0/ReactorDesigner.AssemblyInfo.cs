@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ReactorDesigner")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5cc35716635dee134eb6fcbb4a8a01f3c7a02465")]
 [assembly: System.Reflection.AssemblyProductAttribute("ReactorDesigner")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ReactorDesigner")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,0 +1,105 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:ReactorDesigner.ViewModels"
+    x:Class="ReactorDesigner.Controls.ToolboxItemControl"
+    x:DataType="vm:ToolboxItemViewModel"
+    mc:Ignorable="d">
+
+    <Border
+        Background="#17212B"
+        BorderBrush="#263241"
+        BorderThickness="1"
+        CornerRadius="16"
+        Cursor="Hand"
+        DoubleTapped="Root_OnDoubleTapped"
+        Padding="14"
+        PointerCaptureLost="Root_OnPointerCaptureLost"
+        PointerPressed="Root_OnPointerPressed"
+        PointerMoved="Root_OnPointerMoved"
+        PointerReleased="Root_OnPointerReleased">
+
+        <Grid ColumnDefinitions="48,*,Auto" RowDefinitions="Auto,Auto">
+            <Border
+                Grid.RowSpan="2"
+                Width="40"
+                Height="40"
+                VerticalAlignment="Top"
+                Background="{Binding ChipBrush}"
+                CornerRadius="12">
+
+                <Viewbox
+                    Width="22"
+                    Height="22"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+
+                    <Path
+                        Data="{Binding IconGeometry}"
+                        Fill="{Binding IconBrush}"
+                        Stretch="Uniform" />
+
+                </Viewbox>
+            </Border>
+
+            <StackPanel Grid.Column="1" Spacing="2">
+                <TextBlock
+                    FontSize="13"
+                    FontWeight="SemiBold"
+                    Foreground="#F4F8FF"
+                    Text="{Binding Title}" />
+                <TextBlock
+                    FontSize="11"
+                    Foreground="#A6B4C4"
+                    Text="{Binding Description}" />
+            </StackPanel>
+
+            <StackPanel
+                Grid.Column="2"
+                HorizontalAlignment="Right"
+                Spacing="6">
+                <Border
+                    Background="{Binding ChipBrush}"
+                    CornerRadius="999"
+                    Padding="8,3">
+                    <StackPanel Orientation="Horizontal" Spacing="4">
+                        <TextBlock
+                            FontSize="10"
+                            Foreground="#D8E2EE"
+                            Text="IN" />
+                        <TextBlock
+                            FontSize="10"
+                            Foreground="#F4F8FF"
+                            Text="{Binding InputCount}" />
+                    </StackPanel>
+                </Border>
+                <Border
+                    Background="{Binding ChipBrush}"
+                    CornerRadius="999"
+                    Padding="8,3">
+                    <StackPanel Orientation="Horizontal" Spacing="4">
+                        <TextBlock
+                            FontSize="10"
+                            Foreground="#D8E2EE"
+                            Text="OUT" />
+                        <TextBlock
+                            FontSize="10"
+                            Foreground="#F4F8FF"
+                            Text="{Binding OutputCount}" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <Border
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="0,10,0,0"
+                Height="3"
+                HorizontalAlignment="Stretch"
+                Background="{Binding AccentBrush}"
+                CornerRadius="999" />
+        </Grid>
+    </Border>
+</UserControl>

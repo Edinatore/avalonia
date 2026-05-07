@@ -1,18 +1,26 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace ReactorDesigner.Models;
 
-public partial class NodeModel : ObservableObject
+public sealed class NodeModel
 {
-    [ObservableProperty]
-    private double x;
+    public Guid Id { get; set; } = Guid.NewGuid();
 
-    [ObservableProperty]
-    private double y;
+    public NodeKind Kind { get; set; }
 
-    [ObservableProperty]
-    private string title = "Node";
+    public double X { get; set; }
 
-    [ObservableProperty]
-    private string imagePath = "Assets/reactor.png";
+    public double Y { get; set; }
+
+    public string Title { get; set; } = string.Empty;
+
+    public string Description { get; set; } = string.Empty;
+
+    public string AccentHex { get; set; } = "#4D7FAE";
+
+    public string IconPathData { get; set; } = string.Empty;
+
+    public ObservableCollection<PortModel> InputPorts { get; } = new();
+
+    public ObservableCollection<PortModel> OutputPorts { get; } = new();
 }

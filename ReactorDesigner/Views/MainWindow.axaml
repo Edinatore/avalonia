@@ -3,76 +3,718 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:ReactorDesigner.Controls"
     xmlns:vm="using:ReactorDesigner.ViewModels"
-    xmlns:models="using:ReactorDesigner.Models"
-    mc:Ignorable="d"
+    x:Name="RootWindow"
     x:Class="ReactorDesigner.Views.MainWindow"
     x:DataType="vm:MainWindowViewModel"
-    Width="1400"
-    Height="900"
-    Background="#1E1E1E"
+    mc:Ignorable="d"
+    Width="1500"
+    Height="920"
+    MinWidth="1200"
+    MinHeight="760"
+    Background="#0B1016"
+    FontFamily="Bahnschrift, Inter, Segoe UI"
     Title="Reactor Designer">
 
-    <Grid Background="#1E1E1E">
+    <Grid
+        Background="#0B1016"
+        ColumnDefinitions="380,*"
+        RowDefinitions="76,*">
 
-        <ItemsControl ItemsSource="{Binding Nodes}">
+        <Border
+            Grid.ColumnSpan="2"
+            Margin="18,16,18,0"
+            Padding="22,14"
+            Background="#111922"
+            BorderBrush="#1E2C3A"
+            BorderThickness="1"
+            CornerRadius="20">
 
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <Canvas />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+            <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Spacing="4">
+                    <TextBlock
+                        FontSize="22"
+                        FontWeight="SemiBold"
+                        Foreground="#F5F9FF"
+                        Text="Industrial Process Graph" />
+                    <TextBlock
+                        FontSize="12"
+                        Foreground="#99A8B8"
+                        Text="Drag components from the toolbox, place them on the grid, and connect process ports interactively." />
+                </StackPanel>
 
-            
+                <StackPanel
+                    Grid.Column="1"
+                    Orientation="Horizontal"
+                    Spacing="10"
+                    VerticalAlignment="Center">
+                    <Border
+                        Background="#18222C"
+                        BorderBrush="#283748"
+                        BorderThickness="1"
+                        CornerRadius="999"
+                        Padding="12,6">
+                        <TextBlock
+                            FontSize="11"
+                            Foreground="#D4DDE8"
+                            Text="Orthogonal Routing" />
+                    </Border>
+                    <Border
+                        Background="#18222C"
+                        BorderBrush="#283748"
+                        BorderThickness="1"
+                        CornerRadius="999"
+                        Padding="12,6">
+                        <TextBlock
+                            FontSize="11"
+                            Foreground="#D4DDE8"
+                            Text="MVVM Graph Core" />
+                    </Border>
+                    <Border
+                        Background="#18222C"
+                        BorderBrush="#283748"
+                        BorderThickness="1"
+                        CornerRadius="999"
+                        Padding="12,6">
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <TextBlock
+                                FontSize="11"
+                                Foreground="#D4DDE8"
+                                Text="Workspace" />
+                            <TextBlock
+                                FontSize="11"
+                                Foreground="#F5F9FF"
+                                Text="{Binding Graph.WorkspaceWidth}" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </Border>
 
-            <ItemsControl.ItemTemplate>
-                <DataTemplate x:DataType="models:NodeModel">
-                    <Canvas>
-                        <Border
-                            Canvas.Left="{Binding X}"
-                            Canvas.Top="{Binding Y}"
-                            Width="180"
-                            Height="120"
-                            Background="#2B2B2B"
-                            BorderBrush="#F5C542"
-                            BorderThickness="2"
-                            CornerRadius="10"
-                            PointerPressed="Node_PointerPressed"
-                            PointerMoved="Node_PointerMoved"
-                            PointerReleased="Node_PointerReleased">
+        <Border
+            Grid.Row="1"
+            Margin="18,18,0,18"
+            Background="#111922"
+            BorderBrush="#1E2C3A"
+            BorderThickness="1"
+            CornerRadius="22">
 
-                            <Grid>
+            <ScrollViewer
+                HorizontalScrollBarVisibility="Disabled"
+                VerticalScrollBarVisibility="Auto">
 
-                                <!-- Bild -->
-                                <Image
-                                    Source="{Binding ImagePath}"
-                                    Stretch="Uniform"
-                                    Margin="10,10,10,35" />
+                <StackPanel
+                    x:Name="GraphSidebar"
+                    Margin="14,16,14,16"
+                    Spacing="18"
+                    DataContext="{Binding Graph}"
+                    x:DataType="vm:GraphViewModel">
 
-                                <!-- Titel -->
-                                <Border
-                                    Background="#222"
-                                    Height="30"
-                                    VerticalAlignment="Bottom">
+                    <Border
+                        Padding="16"
+                        Background="#151F29"
+                        BorderBrush="#233140"
+                        BorderThickness="1"
+                        CornerRadius="18">
 
+                        <StackPanel Spacing="14">
+                            <StackPanel Spacing="4">
+                                <TextBlock
+                                    FontSize="16"
+                                    FontWeight="SemiBold"
+                                    Foreground="#F5F9FF"
+                                    Text="Custom Node Builder" />
+                                <TextBlock
+                                    FontSize="12"
+                                    Foreground="#90A3B5"
+                                    Text="Set defaults for custom nodes. You can still fine-tune every node later from the right-click popup on the canvas." />
+                            </StackPanel>
+
+                            <StackPanel Spacing="6">
+                                <TextBlock
+                                    FontSize="11"
+                                    Foreground="#90A3B5"
+                                    Text="Node Name" />
+                                <TextBox
+                                    Background="#0F151D"
+                                    BorderBrush="#2A3949"
+                                    BorderThickness="1"
+                                    CornerRadius="10"
+                                    Foreground="#F5F9FF"
+                                    Text="{Binding CustomNodeTitle, Mode=TwoWay}" />
+                            </StackPanel>
+
+                            <StackPanel Spacing="6">
+                                <TextBlock
+                                    FontSize="11"
+                                    Foreground="#90A3B5"
+                                    Text="Accent Color" />
+                                <TextBox
+                                    Background="#0F151D"
+                                    BorderBrush="#2A3949"
+                                    BorderThickness="1"
+                                    CornerRadius="10"
+                                    Foreground="#F5F9FF"
+                                    Text="{Binding CustomNodeAccentHex, Mode=TwoWay}" />
+                            </StackPanel>
+
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                                <StackPanel Spacing="6">
                                     <TextBlock
-                                        Text="{Binding Title}"
-                                        Foreground="White"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Center"
-                                        FontWeight="Bold" />
+                                        FontSize="11"
+                                        Foreground="#90A3B5"
+                                        Text="Inputs" />
+                                    <ComboBox
+                                        Background="#0F151D"
+                                        BorderBrush="#2A3949"
+                                        BorderThickness="1"
+                                        CornerRadius="10"
+                                        ItemsSource="{Binding PortCountOptions}"
+                                        SelectedItem="{Binding CustomNodeInputCount, Mode=TwoWay}" />
+                                </StackPanel>
 
-                                </Border>
-
+                                <StackPanel Grid.Column="1" Spacing="6">
+                                    <TextBlock
+                                        FontSize="11"
+                                        Foreground="#90A3B5"
+                                        Text="Outputs" />
+                                    <ComboBox
+                                        Background="#0F151D"
+                                        BorderBrush="#2A3949"
+                                        BorderThickness="1"
+                                        CornerRadius="10"
+                                        ItemsSource="{Binding PortCountOptions}"
+                                        SelectedItem="{Binding CustomNodeOutputCount, Mode=TwoWay}" />
+                                </StackPanel>
                             </Grid>
 
+                            <Button
+                                Background="#2D7CF6"
+                                Command="{Binding CreateCustomNodeCommand}"
+                                CornerRadius="12"
+                                Foreground="#F5F9FF"
+                                HorizontalAlignment="Stretch"
+                                Padding="12,10">
+                                Create Custom Node
+                            </Button>
+                        </StackPanel>
+                    </Border>
+
+                    <Border
+                        Padding="16"
+                        Background="#151F29"
+                        BorderBrush="#233140"
+                        BorderThickness="1"
+                        CornerRadius="18">
+
+                        <StackPanel Spacing="14">
+                            <StackPanel Spacing="4">
+                                <TextBlock
+                                    FontSize="16"
+                                    FontWeight="SemiBold"
+                                    Foreground="#F5F9FF"
+                                    Text="Node Toolbox" />
+                                <TextBlock
+                                    FontSize="12"
+                                    Foreground="#90A3B5"
+                                    Text="The workspace starts empty. Drag predefined units onto the canvas or create fully custom nodes above." />
+                            </StackPanel>
+
+                            <ItemsControl ItemsSource="{Binding ToolboxGroups}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:ToolboxGroupViewModel">
+                                        <Border
+                                            Margin="0,0,0,16"
+                                            Background="#10161E"
+                                            BorderBrush="#233140"
+                                            BorderThickness="1"
+                                            CornerRadius="14">
+
+                                            <Expander IsExpanded="True">
+                                                <Expander.Header>
+                                                    <StackPanel Margin="2" Spacing="4">
+                                                        <TextBlock
+                                                            FontSize="14"
+                                                            FontWeight="SemiBold"
+                                                            Foreground="#F5F9FF"
+                                                            Text="{Binding Title}" />
+                                                        <TextBlock
+                                                            FontSize="11"
+                                                            Foreground="#8193A7"
+                                                            Text="{Binding Description}" />
+                                                    </StackPanel>
+                                                </Expander.Header>
+
+                                                <ItemsControl ItemsSource="{Binding Items}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate x:DataType="vm:ToolboxItemViewModel">
+                                                            <controls:ToolboxItemControl Margin="12,0,12,10" />
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </Expander>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <Border
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="18"
+            Background="#111922"
+            BorderBrush="#1E2C3A"
+            BorderThickness="1"
+            CornerRadius="22">
+
+            <Grid RowDefinitions="Auto,*">
+                <Grid
+                    Margin="22,18,22,14"
+                    ColumnDefinitions="*,Auto"
+                    RowDefinitions="Auto,Auto">
+
+                    <TextBlock
+                        FontSize="18"
+                        FontWeight="SemiBold"
+                        Foreground="#F5F9FF"
+                        Text="Process Workspace" />
+
+                    <StackPanel
+                        Grid.Column="1"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                        <Border
+                            Background="#17212B"
+                            BorderBrush="#263241"
+                            BorderThickness="1"
+                            CornerRadius="999"
+                            Padding="10,5">
+                            <TextBlock
+                                FontSize="10"
+                                Foreground="#D0D9E4"
+                                Text="Zoom / Pan Ready" />
                         </Border>
-                    </Canvas>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
+                        <Border
+                            Background="#17212B"
+                            BorderBrush="#263241"
+                            BorderThickness="1"
+                            CornerRadius="999"
+                            Padding="10,5">
+                            <TextBlock
+                                FontSize="10"
+                                Foreground="#D0D9E4"
+                                Text="Connection Preview Enabled" />
+                        </Border>
+                    </StackPanel>
 
-        </ItemsControl>
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        Margin="0,8,0,0"
+                        FontSize="12"
+                        Foreground="#8EA0B2"
+                        Text="Right-click empty canvas to add nodes, right-click a node to edit it, and right-click a connection to manage bend points." />
+                </Grid>
 
+                <Border
+                    Grid.Row="1"
+                    Margin="18,0,18,18"
+                    Background="#0F151D"
+                    BorderBrush="#17212C"
+                    BorderThickness="1"
+                    CornerRadius="18"
+                    ClipToBounds="True">
+
+                    <ScrollViewer
+                        HorizontalScrollBarVisibility="Auto"
+                        VerticalScrollBarVisibility="Auto">
+
+                        <controls:GraphCanvas
+                            Width="{Binding Graph.WorkspaceWidth}"
+                            Height="{Binding Graph.WorkspaceHeight}"
+                            Graph="{Binding Graph}">
+
+                            <controls:ConnectionLayer Graph="{Binding Graph}" />
+
+                            <ItemsControl ItemsSource="{Binding Graph.Nodes}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Canvas />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+
+                                <ItemsControl.Styles>
+                                    <Style Selector="ContentPresenter">
+                                        <Setter Property="Canvas.Left" Value="{ReflectionBinding X}" />
+                                        <Setter Property="Canvas.Top" Value="{ReflectionBinding Y}" />
+                                    </Style>
+                                </ItemsControl.Styles>
+
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:NodeViewModel">
+                                        <controls:NodeControl />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <Canvas Panel.ZIndex="50">
+                                <Border
+                                    Classes="graph-popup-surface"
+                                    Width="232"
+                                    Padding="14"
+                                    Background="#18222C"
+                                    BorderBrush="#2C3A48"
+                                    BorderThickness="1"
+                                    Canvas.Left="{ReflectionBinding Graph.CanvasMenuPosition.X}"
+                                    Canvas.Top="{ReflectionBinding Graph.CanvasMenuPosition.Y}"
+                                    CornerRadius="16"
+                                    IsVisible="{Binding Graph.IsCanvasMenuOpen}">
+
+                                    <StackPanel Spacing="12">
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <TextBlock
+                                                FontSize="15"
+                                                FontWeight="SemiBold"
+                                                Foreground="#F5F9FF"
+                                                Text="Add Node" />
+                                            <Button
+                                                Grid.Column="1"
+                                                Background="#223140"
+                                                Command="{Binding Graph.ClosePopupsCommand}"
+                                                CornerRadius="10"
+                                                Foreground="#F5F9FF"
+                                                Padding="8,4">
+                                                Close
+                                            </Button>
+                                        </Grid>
+
+                                        <TextBlock
+                                            FontSize="11"
+                                            Foreground="#90A3B5"
+                                            Text="Create a node at this canvas position." />
+
+                                        <Button
+                                            Background="#1C2C39"
+                                            Command="{Binding Graph.CreateNodeFromCanvasMenuCommand}"
+                                            CommandParameter="Reactor"
+                                            CornerRadius="12"
+                                            Foreground="#F5F9FF"
+                                            HorizontalAlignment="Stretch"
+                                            Padding="10,8">
+                                            Reactor
+                                        </Button>
+                                        <Button
+                                            Background="#1C2C39"
+                                            Command="{Binding Graph.CreateNodeFromCanvasMenuCommand}"
+                                            CommandParameter="Pump"
+                                            CornerRadius="12"
+                                            Foreground="#F5F9FF"
+                                            HorizontalAlignment="Stretch"
+                                            Padding="10,8">
+                                            Pump
+                                        </Button>
+                                        <Button
+                                            Background="#1C2C39"
+                                            Command="{Binding Graph.CreateNodeFromCanvasMenuCommand}"
+                                            CommandParameter="HeatExchanger"
+                                            CornerRadius="12"
+                                            Foreground="#F5F9FF"
+                                            HorizontalAlignment="Stretch"
+                                            Padding="10,8">
+                                            Heat Exchanger
+                                        </Button>
+                                        <Button
+                                            Background="#1C2C39"
+                                            Command="{Binding Graph.CreateNodeFromCanvasMenuCommand}"
+                                            CommandParameter="Valve"
+                                            CornerRadius="12"
+                                            Foreground="#F5F9FF"
+                                            HorizontalAlignment="Stretch"
+                                            Padding="10,8">
+                                            Valve
+                                        </Button>
+                                        <Button
+                                            Background="#1C2C39"
+                                            Command="{Binding Graph.CreateNodeFromCanvasMenuCommand}"
+                                            CommandParameter="PipeJunction"
+                                            CornerRadius="12"
+                                            Foreground="#F5F9FF"
+                                            HorizontalAlignment="Stretch"
+                                            Padding="10,8">
+                                            Pipe Junction
+                                        </Button>
+                                        <Button
+                                            Background="#1C2C39"
+                                            Command="{Binding Graph.CreateNodeFromCanvasMenuCommand}"
+                                            CommandParameter="Turbine"
+                                            CornerRadius="12"
+                                            Foreground="#F5F9FF"
+                                            HorizontalAlignment="Stretch"
+                                            Padding="10,8">
+                                            Turbine
+                                        </Button>
+                                        <Button
+                                            Background="#1C2C39"
+                                            Command="{Binding Graph.CreateNodeFromCanvasMenuCommand}"
+                                            CommandParameter="Sensor"
+                                            CornerRadius="12"
+                                            Foreground="#F5F9FF"
+                                            HorizontalAlignment="Stretch"
+                                            Padding="10,8">
+                                            Sensor
+                                        </Button>
+                                        <Button
+                                            Background="#2D7CF6"
+                                            Command="{Binding Graph.CreateCustomNodeFromCanvasMenuCommand}"
+                                            CornerRadius="12"
+                                            Foreground="#F5F9FF"
+                                            HorizontalAlignment="Stretch"
+                                            Padding="10,8">
+                                            Custom Node
+                                        </Button>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border
+                                    Classes="graph-popup-surface"
+                                    Width="372"
+                                    Background="#18222C"
+                                    BorderBrush="#2C3A48"
+                                    BorderThickness="1"
+                                    Canvas.Left="{ReflectionBinding Graph.NodeEditorPosition.X}"
+                                    Canvas.Top="{ReflectionBinding Graph.NodeEditorPosition.Y}"
+                                    CornerRadius="18"
+                                    IsVisible="{Binding Graph.IsNodeEditorOpen}">
+
+                                    <ScrollViewer MaxHeight="560">
+                                        <Border Padding="16">
+                                            <StackPanel
+                                                DataContext="{Binding Graph.SelectedNode}"
+                                                Spacing="14"
+                                                x:DataType="vm:NodeViewModel">
+
+                                            <Grid ColumnDefinitions="*,Auto">
+                                                <StackPanel Spacing="3">
+                                                    <TextBlock
+                                                        FontSize="16"
+                                                        FontWeight="SemiBold"
+                                                        Foreground="#F5F9FF"
+                                                        Text="Node Editor" />
+                                                    <TextBlock
+                                                        FontSize="11"
+                                                        Foreground="#90A3B5"
+                                                        Text="Edit the selected node directly from the canvas." />
+                                                </StackPanel>
+                                                <Button
+                                                    Grid.Column="1"
+                                                    Background="#223140"
+                                                    Command="{Binding DataContext.Graph.ClosePopupsCommand, ElementName=RootWindow}"
+                                                    CornerRadius="10"
+                                                    Foreground="#F5F9FF"
+                                                    Padding="8,4">
+                                                    Close
+                                                </Button>
+                                            </Grid>
+
+                                            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                                                <Button
+                                                    Background="#1E2B38"
+                                                    Command="{Binding DataContext.Graph.DuplicateSelectedNodeCommand, ElementName=RootWindow}"
+                                                    CornerRadius="12"
+                                                    Foreground="#F5F9FF"
+                                                    Padding="10,8">
+                                                    Duplicate
+                                                </Button>
+                                                <Button
+                                                    Grid.Column="1"
+                                                    Background="#3A1D24"
+                                                    Command="{Binding DataContext.Graph.DeleteSelectedNodeCommand, ElementName=RootWindow}"
+                                                    CornerRadius="12"
+                                                    Foreground="#FFD8DC"
+                                                    Padding="10,8">
+                                                    Delete
+                                                </Button>
+                                            </Grid>
+
+                                            <StackPanel Spacing="6">
+                                                <TextBlock
+                                                    FontSize="11"
+                                                    Foreground="#90A3B5"
+                                                    Text="Node Name" />
+                                                <TextBox
+                                                    Background="#0F151D"
+                                                    BorderBrush="#2A3949"
+                                                    BorderThickness="1"
+                                                    CornerRadius="10"
+                                                    Foreground="#F5F9FF"
+                                                    Text="{Binding Title, Mode=TwoWay}" />
+                                            </StackPanel>
+
+                                            <StackPanel Spacing="6">
+                                                <TextBlock
+                                                    FontSize="11"
+                                                    Foreground="#90A3B5"
+                                                    Text="Accent Color" />
+                                                <TextBox
+                                                    Background="#0F151D"
+                                                    BorderBrush="#2A3949"
+                                                    BorderThickness="1"
+                                                    CornerRadius="10"
+                                                    Foreground="#F5F9FF"
+                                                    Text="{Binding AccentHex, Mode=TwoWay}" />
+                                            </StackPanel>
+
+                                            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                                                <StackPanel Spacing="6">
+                                                    <TextBlock
+                                                        FontSize="11"
+                                                        Foreground="#90A3B5"
+                                                        Text="Inputs" />
+                                                    <ComboBox
+                                                        Background="#0F151D"
+                                                        BorderBrush="#2A3949"
+                                                        BorderThickness="1"
+                                                        CornerRadius="10"
+                                                        ItemsSource="{Binding DataContext.Graph.PortCountOptions, ElementName=RootWindow}"
+                                                        SelectedItem="{Binding InputCount, Mode=TwoWay}" />
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="1" Spacing="6">
+                                                    <TextBlock
+                                                        FontSize="11"
+                                                        Foreground="#90A3B5"
+                                                        Text="Outputs" />
+                                                    <ComboBox
+                                                        Background="#0F151D"
+                                                        BorderBrush="#2A3949"
+                                                        BorderThickness="1"
+                                                        CornerRadius="10"
+                                                        ItemsSource="{Binding DataContext.Graph.PortCountOptions, ElementName=RootWindow}"
+                                                        SelectedItem="{Binding OutputCount, Mode=TwoWay}" />
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                                                <StackPanel Spacing="8">
+                                                    <TextBlock
+                                                        FontSize="12"
+                                                        FontWeight="SemiBold"
+                                                        Foreground="#D6E0EB"
+                                                        Text="Input Labels" />
+                                                    <ItemsControl ItemsSource="{Binding InputPorts}">
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate x:DataType="vm:PortViewModel">
+                                                                <TextBox
+                                                                    Margin="0,0,0,8"
+                                                                    Background="#0F151D"
+                                                                    BorderBrush="#2A3949"
+                                                                    BorderThickness="1"
+                                                                    CornerRadius="10"
+                                                                    Foreground="#F5F9FF"
+                                                                    Text="{Binding Label, Mode=TwoWay}" />
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="1" Spacing="8">
+                                                    <TextBlock
+                                                        FontSize="12"
+                                                        FontWeight="SemiBold"
+                                                        Foreground="#D6E0EB"
+                                                        Text="Output Labels" />
+                                                    <ItemsControl ItemsSource="{Binding OutputPorts}">
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate x:DataType="vm:PortViewModel">
+                                                                <TextBox
+                                                                    Margin="0,0,0,8"
+                                                                    Background="#0F151D"
+                                                                    BorderBrush="#2A3949"
+                                                                    BorderThickness="1"
+                                                                    CornerRadius="10"
+                                                                    Foreground="#F5F9FF"
+                                                                    Text="{Binding Label, Mode=TwoWay}" />
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                </StackPanel>
+                                            </Grid>
+                                            </StackPanel>
+                                        </Border>
+                                    </ScrollViewer>
+                                </Border>
+
+                                <Border
+                                    Classes="graph-popup-surface"
+                                    Width="228"
+                                    Padding="14"
+                                    Background="#18222C"
+                                    BorderBrush="#2C3A48"
+                                    BorderThickness="1"
+                                    Canvas.Left="{ReflectionBinding Graph.ConnectionMenuPosition.X}"
+                                    Canvas.Top="{ReflectionBinding Graph.ConnectionMenuPosition.Y}"
+                                    CornerRadius="16"
+                                    IsVisible="{Binding Graph.IsConnectionMenuOpen}">
+
+                                    <StackPanel
+                                        DataContext="{Binding Graph}"
+                                        Spacing="12"
+                                        x:DataType="vm:GraphViewModel">
+
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <TextBlock
+                                                FontSize="15"
+                                                FontWeight="SemiBold"
+                                                Foreground="#F5F9FF"
+                                                Text="Connection" />
+                                            <Button
+                                                Grid.Column="1"
+                                                Background="#223140"
+                                                Command="{Binding ClosePopupsCommand}"
+                                                CornerRadius="10"
+                                                Foreground="#F5F9FF"
+                                                Padding="8,4">
+                                                Close
+                                            </Button>
+                                        </Grid>
+
+                                        <TextBlock
+                                            FontSize="11"
+                                            Foreground="#90A3B5"
+                                            Text="Use connection actions to keep orthogonal routes clean and readable." />
+
+                                        <Button
+                                            Background="#1E2B38"
+                                            Command="{Binding AddBendPointFromConnectionMenuCommand}"
+                                            CornerRadius="12"
+                                            Foreground="#F5F9FF"
+                                            IsVisible="{Binding ConnectionMenuCanAddBendPoint}"
+                                            Padding="10,8">
+                                            Add Bend Point
+                                        </Button>
+
+                                        <Button
+                                            Background="#3A1D24"
+                                            Command="{Binding RemoveBendPointFromConnectionMenuCommand}"
+                                            CornerRadius="12"
+                                            Foreground="#FFD8DC"
+                                            IsVisible="{Binding ConnectionMenuCanRemoveBendPoint}"
+                                            Padding="10,8">
+                                            Remove Bend Point
+                                        </Button>
+                                    </StackPanel>
+                                </Border>
+                            </Canvas>
+                        </controls:GraphCanvas>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+        </Border>
     </Grid>
-
 </Window>

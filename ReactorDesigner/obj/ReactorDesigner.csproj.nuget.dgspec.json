@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\z004r83a\\ReactorDesigner\\ReactorDesigner.csproj": {}
+    "C:\\Users\\Ediz\\Desktop\\Ediz\\SE\\Christian\\avalonia\\ReactorDesigner\\ReactorDesigner.csproj": {}
   },
   "projects": {
-    "C:\\Users\\z004r83a\\ReactorDesigner\\ReactorDesigner.csproj": {
+    "C:\\Users\\Ediz\\Desktop\\Ediz\\SE\\Christian\\avalonia\\ReactorDesigner\\ReactorDesigner.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\z004r83a\\ReactorDesigner\\ReactorDesigner.csproj",
+        "projectUniqueName": "C:\\Users\\Ediz\\Desktop\\Ediz\\SE\\Christian\\avalonia\\ReactorDesigner\\ReactorDesigner.csproj",
         "projectName": "ReactorDesigner",
-        "projectPath": "C:\\Users\\z004r83a\\ReactorDesigner\\ReactorDesigner.csproj",
-        "packagesPath": "C:\\Users\\z004r83a\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\z004r83a\\ReactorDesigner\\obj\\",
+        "projectPath": "C:\\Users\\Ediz\\Desktop\\Ediz\\SE\\Christian\\avalonia\\ReactorDesigner\\ReactorDesigner.csproj",
+        "packagesPath": "C:\\Users\\Ediz\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Ediz\\Desktop\\Ediz\\SE\\Christian\\avalonia\\ReactorDesigner\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\z004r83a\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Ediz\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -84,7 +84,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Users\\z004r83a\\dotnet\\sdk\\8.0.420/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Users\\Ediz\\dotnet\\sdk\\8.0.420/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

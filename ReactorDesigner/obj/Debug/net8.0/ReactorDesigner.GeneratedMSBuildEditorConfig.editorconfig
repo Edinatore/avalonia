@@ -20,12 +20,18 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ReactorDesigner
-build_property.ProjectDir = C:\Users\z004r83a\ReactorDesigner\
+build_property.ProjectDir = C:\Users\Ediz\Desktop\Ediz\SE\Christian\avalonia\ReactorDesigner\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 
-[C:/Users/z004r83a/ReactorDesigner/App.axaml]
+[C:/Users/Ediz/Desktop/Ediz/SE/Christian/avalonia/ReactorDesigner/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/z004r83a/ReactorDesigner/Views/MainWindow.axaml]
+[C:/Users/Ediz/Desktop/Ediz/SE/Christian/avalonia/ReactorDesigner/Controls/NodeControl.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/Ediz/Desktop/Ediz/SE/Christian/avalonia/ReactorDesigner/Controls/ToolboxItemControl.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/Ediz/Desktop/Ediz/SE/Christian/avalonia/ReactorDesigner/Views/MainWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

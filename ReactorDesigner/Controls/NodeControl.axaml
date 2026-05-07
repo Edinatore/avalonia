@@ -1,0 +1,190 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:ReactorDesigner.ViewModels"
+    x:Class="ReactorDesigner.Controls.NodeControl"
+    x:DataType="vm:NodeViewModel"
+    mc:Ignorable="d">
+
+    <UserControl.Styles>
+        <Style Selector="Border.port-handle">
+            <Setter Property="Width" Value="16" />
+            <Setter Property="Height" Value="16" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="BorderThickness" Value="1.5" />
+        </Style>
+
+        <Style Selector="Border.port-handle:pointerover">
+            <Setter Property="BorderBrush" Value="#FFFFFF" />
+            <Setter Property="Background" Value="#FFFFFF" />
+        </Style>
+    </UserControl.Styles>
+
+    <Border
+        x:Name="NodeRoot"
+        Width="{Binding Width}"
+        Height="{Binding Height}"
+        Background="{Binding BodyBrush}"
+        BorderBrush="{Binding OutlineBrush}"
+        BorderThickness="1.5"
+        CornerRadius="18"
+        PointerPressed="NodeRoot_OnPointerPressed"
+        PointerMoved="NodeRoot_OnPointerMoved"
+        PointerCaptureLost="NodeRoot_OnPointerCaptureLost"
+        PointerReleased="NodeRoot_OnPointerReleased">
+
+        <Grid RowDefinitions="40,*">
+            <Border
+                Grid.Row="0"
+                Background="{Binding HeaderBrush}"
+                CornerRadius="18,18,0,0"
+                Padding="16,0">
+
+                <Grid ColumnDefinitions="*,Auto">
+                    <StackPanel VerticalAlignment="Center" Spacing="1">
+                        <TextBlock
+                            Text="{Binding Title}"
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Foreground="#F5F9FF" />
+                        <TextBlock
+                            Text="{Binding Description}"
+                            FontSize="11"
+                            Foreground="#D0D9E4" />
+                    </StackPanel>
+
+                    <Border
+                        Grid.Column="1"
+                        Width="28"
+                        Height="28"
+                        VerticalAlignment="Center"
+                        Background="#22000000"
+                        BorderBrush="#26FFFFFF"
+                        BorderThickness="1"
+                        CornerRadius="14">
+
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="10"
+                            FontWeight="Bold"
+                            Foreground="#F5F9FF"
+                            Text="{Binding BadgeText}" />
+
+                    </Border>
+                </Grid>
+            </Border>
+
+            <Grid
+                Grid.Row="1"
+                Margin="0,0,0,12"
+                ColumnDefinitions="88,*,88">
+
+                <ItemsControl
+                    Grid.Column="0"
+                    ItemsSource="{Binding InputPorts}"
+                    Margin="0,8,0,0">
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:PortViewModel">
+                            <Grid Height="28" Cursor="Hand">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Border
+                                    Classes="port-handle"
+                                    Background="{Binding FillBrush}"
+                                    BorderBrush="{Binding StrokeBrush}"
+                                    Margin="-8,0,0,0"
+                                    VerticalAlignment="Center" />
+
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Margin="10,0,6,0"
+                                    VerticalAlignment="Center"
+                                    Foreground="#C8D3E0"
+                                    FontSize="11"
+                                    Text="{Binding Label}"
+                                    TextTrimming="CharacterEllipsis" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <Grid Grid.Column="1" Margin="12,6">
+                    <Border
+                        Height="94"
+                        VerticalAlignment="Top"
+                        Background="{Binding IconPlateBrush}"
+                        BorderBrush="#1FFFFFFF"
+                        BorderThickness="1"
+                        CornerRadius="16">
+
+                        <Viewbox
+                            Width="68"
+                            Height="68"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+
+                            <Path
+                                Data="{Binding IconGeometry}"
+                                Fill="{Binding IconBrush}"
+                                Stretch="Uniform" />
+
+                        </Viewbox>
+                    </Border>
+
+                    <TextBlock
+                        Margin="8,106,8,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        FontSize="11"
+                        Foreground="{Binding SubtleTextBrush}"
+                        Text="{Binding CategoryLabel}" />
+                </Grid>
+
+                <ItemsControl
+                    Grid.Column="2"
+                    ItemsSource="{Binding OutputPorts}"
+                    Margin="0,8,0,0">
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:PortViewModel">
+                            <Grid
+                                Height="28"
+                                Cursor="Hand"
+                                PointerPressed="OutputPort_OnPointerPressed">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Margin="6,0,10,0"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Right"
+                                    Foreground="#C8D3E0"
+                                    FontSize="11"
+                                    Text="{Binding Label}"
+                                    TextTrimming="CharacterEllipsis" />
+
+                                <Border
+                                    Grid.Column="1"
+                                    Classes="port-handle"
+                                    Background="{Binding FillBrush}"
+                                    BorderBrush="{Binding StrokeBrush}"
+                                    Margin="0,0,-8,0"
+                                    VerticalAlignment="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>
